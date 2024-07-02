@@ -51,7 +51,7 @@ const PaymentInterface = () => {
           <span className="ml-2 font-bold">OpenCommerce</span>
         </div>
         <div className="bg-gray-800 px-3 py-1 rounded-full border border-green-400">
-          <span className="text-green-400 font-bold">{animatingPoints} GIGGLES </span>
+          <span className="text-green-400 font-bold">{animatingPoints} BikBiks </span>
         </div>
       </div>
       
