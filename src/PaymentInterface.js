@@ -50,8 +50,7 @@ const PaymentInterface = ({ customizations }) => {
         <div className="flex items-center">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="24" height="4" fill={customizations.darkMode ? "white" : "black"}/>
-            <rect y="10" width="24" height="4" fill={customizations.darkMode ? "white" : "black"}/>
-            <rect y="20" width="24" height="4" fill={customizations.darkMode ? "white" : "black"}/>
+            <rect y="12" width="24" height="4" fill={customizations.darkMode ? "white" : "black"}/>
           </svg>
           <span className="ml-2 font-bold">{customizations.title}</span>
         </div>
@@ -146,9 +145,9 @@ const PaymentInterface = ({ customizations }) => {
         {customizations.buttonText}
       </button>
 
-      {/* Add logo at the bottom */}
+      {/* Logo at the bottom, now half-size */}
       <div className="flex justify-center mt-4">
-        <img src="/logo.png" alt="Logo" className="h-8" />
+        <img src={`${process.env.PUBLIC_URL}/logo.png`} alt="Logo" className="h-4" /> {/* Changed from h-8 to h-4 */}
       </div>
     </div>
   );
