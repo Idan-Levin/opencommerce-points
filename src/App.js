@@ -1,10 +1,10 @@
 import React from 'react';
-import PaymentInterface from './PaymentInterface';
+import InteractivePaymentMaker from './InteractivePaymentMaker';
 
 function App() {
   return (
     <div className="App">
-      <PaymentInterface />
+      <InteractivePaymentMaker />
     </div>
   );
 }

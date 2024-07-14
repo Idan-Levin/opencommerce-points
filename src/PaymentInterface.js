@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ChevronRight, RotateCw } from 'lucide-react';
+import { ChevronRight, RotateCw, Image, Zap, Shield, Star } from 'lucide-react';
 
-const PaymentInterface = () => {
+const placeholderIcons = [Image, Zap, Shield, Star];
+
+const PaymentInterface = ({ customizations }) => {
   const [points, setPoints] = useState(1000);
   const [animatingPoints, setAnimatingPoints] = useState(1000);
   const animationRef = useRef(null);
@@ -19,7 +21,7 @@ const PaymentInterface = () => {
       if (progress < 1) {
         animationRef.current = requestAnimationFrame(step);
       } else {
-        setAnimatingPoints(end); // Ensure we reach the exact final value
+        setAnimatingPoints(end);
       }
     };
     animationRef.current = requestAnimationFrame(step);
@@ -28,7 +30,7 @@ const PaymentInterface = () => {
   const handlePayNow = () => {
     const newPoints = points + 100;
     setPoints(newPoints);
-    animatePoints(points, newPoints, 2000); // 2 seconds animation
+    animatePoints(points, newPoints, 2000);
   };
 
   useEffect(() => {
@@ -39,25 +41,30 @@ const PaymentInterface = () => {
     };
   }, []);
 
+  const bgColor = customizations.darkMode ? 'bg-gray-900' : 'bg-white';
+  const textColor = customizations.darkMode ? 'text-white' : 'text-gray-900';
+
   return (
-    <div className="bg-gray-900 text-white p-6 rounded-lg max-w-sm mx-auto font-sans relative">
+    <div className={`${bgColor} ${textColor} p-6 rounded-lg max-w-sm mx-auto font-sans relative`}>
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="24" height="4" fill="white"/>
-            <rect y="10" width="24" height="4" fill="white"/>
-            <rect y="20" width="24" height="4" fill="white"/>
+            <rect width="24" height="4" fill={customizations.darkMode ? "white" : "black"}/>
+            <rect y="10" width="24" height="4" fill={customizations.darkMode ? "white" : "black"}/>
+            <rect y="20" width="24" height="4" fill={customizations.darkMode ? "white" : "black"}/>
           </svg>
-          <span className="ml-2 font-bold">OpenCommerce</span>
+          <span className="ml-2 font-bold">{customizations.title}</span>
         </div>
-        <div className="bg-gray-800 px-3 py-1 rounded-full border border-green-400">
-          <span className="text-green-400 font-bold">{animatingPoints} BikBiks </span>
-        </div>
+        {customizations.showPoints && (
+          <div className="bg-gray-800 px-3 py-1 rounded-full border border-green-400">
+            <span className="text-green-400 font-bold">{animatingPoints} PTS</span>
+          </div>
+        )}
       </div>
       
       <div className="text-center mb-6">
         <p className="text-2xl font-bold mb-1">Pay 1.00 USD</p>
-        <p className="text-sm text-gray-400">To OpenCommerce</p>
+        <p className="text-sm text-gray-400">To {customizations.recipient}</p>
       </div>
       
       <div className="bg-gray-800 rounded-lg p-4 mb-4">
@@ -68,7 +75,7 @@ const PaymentInterface = () => {
             </div>
             <div>
               <p className="font-medium">Pay with</p>
-              <p className="text-sm">ETH on Base</p>
+              <p className="text-sm">ETH</p>
             </div>
           </div>
           <div className="flex items-center">
@@ -81,28 +88,43 @@ const PaymentInterface = () => {
       </div>
       
       <div className="space-y-3 mb-4">
-        <div className="flex justify-between items-center">
-          <span className="text-gray-400">Compliance Check</span>
-          <RotateCw className="text-gray-400" size={16} />
-        </div>
-        <div className="flex justify-between items-center">
-          <span className="text-gray-400">Eligibility Check</span>
-          <RotateCw className="text-gray-400" size={16} />
-        </div>
-        <div className="flex justify-between items-center">
-          <span className="text-gray-400">Promotion Application</span>
-          <RotateCw className="text-gray-400" size={16} />
-        </div>
-        <div className="flex justify-between items-center">
-          <span className="text-gray-400">Payment Distribution</span>
-          <RotateCw className="text-gray-400" size={16} />
-        </div>
+        {customizations.checks.map((check, index) => (
+          <div key={index} className="flex justify-between items-center">
+            <span className="text-gray-400">
+              {check.link ? (
+                <a href={check.link} className="hover:underline">{check.label}</a>
+              ) : (
+                check.label
+              )}
+            </span>
+            <RotateCw className="text-gray-400" size={16} />
+          </div>
+        ))}
       </div>
+
+      {customizations.pictureSquares.length > 0 && (
+        <div className="grid grid-cols-2 gap-4 mb-4">
+          {customizations.pictureSquares.map((square, index) => {
+            const IconComponent = placeholderIcons[index % placeholderIcons.length];
+            return (
+              <a key={index} href={square.link} target="_blank" rel="noopener noreferrer" className="block">
+                {square.imageUrl ? (
+                  <img src={square.imageUrl} alt={`Square ${index + 1}`} className="w-full h-auto rounded" />
+                ) : (
+                  <div className="w-full h-32 bg-gray-300 rounded flex items-center justify-center">
+                    <IconComponent size={32} className="text-gray-500" />
+                  </div>
+                )}
+              </a>
+            );
+          })}
+        </div>
+      )}
 
       <div className="mb-4">
         <div className="flex justify-between text-sm mb-1">
           <span className="text-gray-400">Network fee</span>
-          <span className="text-white">$0.19 USD</span>
+          <span className={textColor}>$0.19 USD</span>
         </div>
         <div className="flex justify-between text-xs">
           <span></span>
@@ -118,11 +140,16 @@ const PaymentInterface = () => {
       </div>
       
       <button 
-        className="w-full bg-purple-500 hover:bg-purple-600 text-white font-bold py-3 px-4 rounded-lg transition duration-300"
+        className="w-full bg-purple-500 hover:bg-purple-600 text-white font-bold py-3 px-4 rounded-lg transition duration-300 mb-4"
         onClick={handlePayNow}
       >
-        Pay Now
+        {customizations.buttonText}
       </button>
+
+      {/* Add logo at the bottom */}
+      <div className="flex justify-center mt-4">
+        <img src="/logo.png" alt="Logo" className="h-8" />
+      </div>
     </div>
   );
 };
