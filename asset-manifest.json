@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/opencommerce-points/static/css/main.e6bb08d2.css",
-    "main.js": "/opencommerce-points/static/js/main.fb2f675c.js",
+    "main.css": "/opencommerce-points/static/css/main.c2fc09d6.css",
+    "main.js": "/opencommerce-points/static/js/main.6046cfe0.js",
     "static/js/453.12267044.chunk.js": "/opencommerce-points/static/js/453.12267044.chunk.js",
     "index.html": "/opencommerce-points/index.html",
-    "main.e6bb08d2.css.map": "/opencommerce-points/static/css/main.e6bb08d2.css.map",
-    "main.fb2f675c.js.map": "/opencommerce-points/static/js/main.fb2f675c.js.map",
+    "main.c2fc09d6.css.map": "/opencommerce-points/static/css/main.c2fc09d6.css.map",
+    "main.6046cfe0.js.map": "/opencommerce-points/static/js/main.6046cfe0.js.map",
     "453.12267044.chunk.js.map": "/opencommerce-points/static/js/453.12267044.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.e6bb08d2.css",
-    "static/js/main.fb2f675c.js"
+    "static/css/main.c2fc09d6.css",
+    "static/js/main.6046cfe0.js"
   ]
 }
